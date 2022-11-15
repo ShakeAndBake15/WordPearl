@@ -36,3 +36,4 @@ def oysterList(request, id):
     elif request.method == 'DELETE':
         oyster.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+        # this is a change for commit
