@@ -5,8 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-
-#pearls
+#pearlList
 @api_view(['GET', 'POST'])
 def pearlList(request):
     if request.method == 'GET':
@@ -19,7 +18,7 @@ def pearlList(request):
         serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-
+#pearlsById
 @api_view(['GET', 'PUT', 'DELETE'])
 def getPearlById(request, id):
     try:
@@ -28,7 +27,7 @@ def getPearlById(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         serializer = PearlSerializer(pearl, many=False)
-        return JsonResponse({'pearl': serializer.data}, safe=False)
+        return Response({'pearl': serializer.data})
     elif request.method == 'PUT':
         serializer = PearlSerializer(pearl, data=request.data, partial=True)
         if serializer.is_valid():
@@ -39,6 +38,7 @@ def getPearlById(request, id):
         pearl.delete()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+#oysterList
 @api_view(['GET', 'POST'])
 def oystersList(request):
     if request.method == 'GET':
@@ -51,7 +51,7 @@ def oystersList(request):
         serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-#oysters
+#oystersByID
 @api_view(['GET', 'DELETE'])
 def oysterList(request, id):
     try:
@@ -65,6 +65,7 @@ def oysterList(request, id):
         oyster.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+#comments
 @api_view(['GET', 'POST'])
 def commentList(request):
         if request.method == 'GET':
@@ -77,26 +78,22 @@ def commentList(request):
             serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-#comments
+#commentsByID
 @api_view(['GET', 'PUT', 'DELETE'])
 def comment(request, id):
-    
     try:
         comment = Comment.objects.get(pk=id)
     except Comment.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
-
     elif request.method == 'PUT':
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
     elif request.method == 'DELETE':
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
