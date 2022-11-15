@@ -21,9 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('pearls/', views.pearlList),
     #path('pearls/:id', views.pearl),
-    #path('oysters/', views.oysterList),
-   #path('oysters/:id', views.oyster),
+    path('oysters/', views.oystersList),
+    path('oysters/<int:id>', views.oysterList)
     #path('comments/', views.commentList),
     #path('comments/:id', views.comment)
-    path('users/', views.oystersList)
 ]

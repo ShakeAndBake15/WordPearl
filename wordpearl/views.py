@@ -17,9 +17,22 @@ def pearlList(request):
             serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET', 'POST', 'DELETE'])
+@api_view(['GET', 'POST'])
 def oystersList(request):
     if request.method == 'GET':
         oysters = Oyster.objects.all()
         serializer = OystersSerializer(oysters, many=True)
         return JsonResponse({'oysters': serializer.data}, safe=False)
+
+@api_view(['GET', 'DELETE'])
+def oysterList(request, id):
+    try:
+      oyster = Oyster.objects.get(pk=id)
+    except Oyster.DoesNotExist:
+      return Response(status = status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = OystersSerializer(oyster)
+        return Response({'oyster': serializer.data})
+    elif request.method == 'DELETE':
+        oyster.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
