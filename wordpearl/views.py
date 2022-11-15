@@ -11,3 +11,8 @@ def pearlList(request):
             pearls = Pearl.objects.all()
             serializer = PearlSerializer(pearls, many=True)
             return JsonResponse({'pearls': serializer.data}, safe=False)
+        if request.method == 'POST':
+            serializer = PearlSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
