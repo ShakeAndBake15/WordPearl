@@ -20,9 +20,10 @@ from wordpearl import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pearls/', views.pearlList),
-    path('pearls/:id', views.pearl),
-    path('oysters/', views.oysterList),
-    path('oysters/:id', views.oyster),
-    path('comments/', views.commentList),
-    path('comments/:id', views.comment)
+    #path('pearls/:id', views.pearl),
+    #path('oysters/', views.oysterList),
+   #path('oysters/:id', views.oyster),
+    #path('comments/', views.commentList),
+    #path('comments/:id', views.comment)
+    path('users/', views.oystersList)
 ]
