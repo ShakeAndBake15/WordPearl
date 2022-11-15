@@ -2,6 +2,7 @@ from django.db import models
 
 class Oyster(models.Model):
   oyster_id = models.AutoField
+  points = models.IntegerField()
   password = models.CharField(max_length=50)
   username = models.CharField(max_length=50)
   avatar_url = models.CharField(max_length=500)
