@@ -1,10 +1,11 @@
 from django.http import JsonResponse
-from .models import Pearl, Oyster
-from .serializers import PearlSerializer, OystersSerializer
+from .models import *
+from .serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+#pearls
 @api_view(['GET', 'POST'])
 def pearlList(request):
         if request.method == 'GET':
@@ -29,6 +30,7 @@ def oystersList(request):
         serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+#oysters
 @api_view(['GET', 'DELETE'])
 def oysterList(request, id):
     try:
@@ -40,4 +42,40 @@ def oysterList(request, id):
         return Response({'oyster': serializer.data})
     elif request.method == 'DELETE':
         oyster.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+def commentList(request):
+        if request.method == 'GET':
+            comments = Comment.objects.all()
+            serializer = CommentSerializer(comments, many=True)
+            return JsonResponse({'comments': serializer.data}, safe=False)
+        if request.method == 'POST':
+            serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+#comments
+@api_view(['GET', 'PUT', 'DELETE'])
+def comment(request, id):
+    
+    try:
+        comment = Comment.objects.get(pk=id)
+    except Comment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
