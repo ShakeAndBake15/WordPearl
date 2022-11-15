@@ -23,6 +23,11 @@ def oystersList(request):
         oysters = Oyster.objects.all()
         serializer = OystersSerializer(oysters, many=True)
         return JsonResponse({'oysters': serializer.data}, safe=False)
+    if request.method == 'POST':
+        serializer = OystersSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'DELETE'])
 def oysterList(request, id):
@@ -36,4 +41,3 @@ def oysterList(request, id):
     elif request.method == 'DELETE':
         oyster.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-        # this is a change for commit
