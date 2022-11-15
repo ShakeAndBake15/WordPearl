@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
+import dj_database_url
 import psycopg2 as Database
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,7 @@ SECRET_KEY = 'django-insecure-9qr0w!*t0=7g(1)w3%g^=x5^wqb25o4lsbxntmkx99@dutn@-f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -130,8 +131,6 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+django_heroku.settings(locals())
