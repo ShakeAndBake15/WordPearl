@@ -6,8 +6,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('pearls/', views.pearlList),
     path('pearls/<int:id>', views.getPearlById),
-    # path('comments/', views.commentList),
-    # path('comments/:id', views.comment)
     path('oysters/', views.oystersList),
-    path('oysters/<int:id>', views.oysterList)
+    path('oysters/<int:id>', views.oysterList),
+    path('comments/', views.commentList),
+    path('comments/<int:id>', views.comment),
 ]
